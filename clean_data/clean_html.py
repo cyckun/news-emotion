@@ -8,6 +8,8 @@ import re
 
 # 网页中的字符实体
 # 需要更多的补充
+from urllib import request
+
 html_char = {}
 html_char['&quot;'] = html_char['&#34;']='"'
 html_char['&apos;'] = html_char['&#39;'] = "'"
@@ -120,37 +122,29 @@ def cleanHtml(html_str,special_char=None,to_char=None):
     
     return raw
 
+
 # 测试函数
 def test():
     # 下面是一段html的测试代码
+    url = "http://www.jrj.com.cn/"
+
+    html = request.urlopen(url).read().decode("gbk")
     test_html = """
-        
-    <div id="sidebar">
 
-    <div id="tools">
-    <h5 id="tools_example"><a href="/example/xmle_examples.asp">&nbsp;XML 实例,特殊字符：１５（处理之后应该没有了）</a></h5>
-    <h5 id="tools_quiz"><a href="/xml/xml_quiz.asp">&#60;XML 测验&gt;</a></h5>
-    <h3>&#39;ｖｅｖｅｖ&#39;</h3>
-    </div>
-
-    <div id="ad">
-    <script type="text/javascript"><!--
-    google_ad_client = "ca-pub-3381531532877742";
-    /* sidebar-160x600 */
-    google_ad_slot = "3772569310";
-    google_ad_width = 160;
-    google_ad_height = 600;
-    //-->
-    </script>
-    <script type="text/javascript"
-    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-    </script>
-    </div>
-
-    </div>
     """
 
-    print(cleanHtml(test_html,'】１５'))
+    # print(cleanHtml(html, '】１５'))
+    print(type(cleanHtml(html, '】１５')))
+    res_list = cleanHtml(html, '】１５').split('\n')
+    print("lne = ", len(res_list))
+    new_res_list = res_list[460:540]
+    # print("new = ", new_res_list)
+    new_resutl = []
+    for ele in new_res_list:
+        print(ele)
+        new_resutl.append(ele)
+
+    print(new_resutl)
 
 if __name__=='__main__':
     test()
